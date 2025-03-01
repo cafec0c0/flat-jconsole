@@ -10,24 +10,34 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: Remove tag prefix
+        run: |
           VERSION=${GITHUB_REF_NAME#v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Java 11
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
-      - run: mvn -B versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
-      - run: mvn clean package
-      - run: mvn -B versions:set -DnextSnapshot=true -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
-      - uses: EndBug/add-and-commit@v9
+      - name: Set pom.xml version for this release
+        run: mvn -B versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
+      - name: Build JAR
+        run: mvn clean package
+      - name: Set pom.xml snapshot version
+        run: mvn -B versions:set -DnextSnapshot=true -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
+      - name: Update README versions
+        run: sed -i -E  "s/flat-jconsole-([[:digit:]]+.[[:digit:]](.[[:digit:]])?)(-SNAPSHOT)?.jar/flat-jconsole-1.0.6.jar/g" README.md
+      - name: Create release
+        uses: EndBug/add-and-commit@v9
         with:
-          add: 'pom.xml'
+          add: '["pom.xml", "README.md"]'
           message: Bump pom version
           new_branch: main
           push: true
-      - uses: actions/create-release@latest
+      - name: Create release
+        uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -35,6 +45,7 @@ jobs:
           release_name: Release ${{ env.VERSION }}
           draft: false
           prerelease: false
-      - run: gh release upload ${{ github.ref_name }} target/flat-jconsole-$VERSION.jar
+      - name: Upload JAR to GitHub release
+        run: gh release upload ${{ github.ref_name }} target/flat-jconsole-$VERSION.jar
         env:
           GITHUB_TOKEN: ${{ github.token }}
