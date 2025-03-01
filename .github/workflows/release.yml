@@ -17,6 +17,11 @@ jobs:
           java-version: '11'
       - run: mvn -B versions:set -DnewVersion=${{ github.ref_name }} -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
       - run: mvn clean package
+      - run: mvn -B versions:set -DnextSnapshot=true -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
+      - uses: EndBug/add-and-commit@v9
+        with:
+         add: 'pom.xml'
+         message: Bump pom version
       - uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ github.token }}
