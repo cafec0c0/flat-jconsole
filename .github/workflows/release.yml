@@ -17,6 +17,6 @@ jobs:
           java-version: '11'
       - run: mvn -B versions:set -DnewVersion=${{ github.ref }} -DgenerateBackupPoms=false
       - run: mvn clean package
-      - run: gh release upload ${{ github.event.release.tag_name }} flat-jconsole-${{ github.ref }}.jar
+      - run: gh release upload ${{ github.ref }} flat-jconsole-${{ github.ref }}.jar
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
