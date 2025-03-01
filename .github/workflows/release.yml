@@ -28,7 +28,7 @@ jobs:
       - name: Set pom.xml snapshot version
         run: mvn -B versions:set -DnextSnapshot=true -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
       - name: Update README versions
-        run: sed -i -E  "s/flat-jconsole-([[:digit:]]+.[[:digit:]](.[[:digit:]])?)(-SNAPSHOT)?.jar/flat-jconsole-1.0.6.jar/g" README.md
+        run: sed -i -E  "s/flat-jconsole-([[:digit:]]+.[[:digit:]](.[[:digit:]])?)(-SNAPSHOT)?.jar/flat-jconsole-$VERSION.jar/g" README.md
       - name: Create release
         uses: EndBug/add-and-commit@v9
         with:
