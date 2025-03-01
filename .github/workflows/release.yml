@@ -15,7 +15,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-      - run: mvn -B versions:set -DnewVersion=${{ github.ref }} -DgenerateBackupPoms=false
+      - run: mvn -B versions:set -DnewVersion=${{ github.ref_name }} -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
       - run: mvn clean package
       - uses: actions/create-release@latest
         env:
