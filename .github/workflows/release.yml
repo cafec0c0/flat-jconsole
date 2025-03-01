@@ -36,6 +36,7 @@ jobs:
           message: Bump pom version
           new_branch: main
           push: true
+          pull: '--rebase'
       - name: Create release
         uses: actions/create-release@latest
         env:
