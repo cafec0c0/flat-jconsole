@@ -11,6 +11,7 @@ import sun.tools.jconsole.JConsole;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FlatJConsole {
 
@@ -26,6 +27,9 @@ public class FlatJConsole {
 
 
     public static void main(String[] args) {
+        // Prevent flatlaf native library unpacking / loading
+        System.setProperty("flatlaf.useNativeLibrary", "false");
+
         List<String> argsList = Arrays.asList(args);
         if (argsList.contains("-help") || argsList.contains("-h") || argsList.contains("-?")) {
             printThemeHelp();
@@ -38,7 +42,7 @@ public class FlatJConsole {
     private static List<String> stripInvalidArgs(List<String> args) {
         return args.stream()
                 .filter(arg -> !arg.startsWith(ARG_NAME))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     private static void initTheme(List<String> args) {
@@ -63,13 +67,27 @@ public class FlatJConsole {
         System.setProperty("swing.defaultlaf", "something");
 
         switch (themeName) {
-            case FLAT_LIGHT_LAF_THEME_NAME -> FlatLightLaf.setup();
-            case FLAT_DARK_LAF_THEME_NAME -> FlatDarkLaf.setup();
-            case FLAT_MAC_LIGHT_LAF_THEME_NAME -> FlatMacLightLaf.setup();
-            case FLAT_MAC_DARK_LAF_THEME_NAME -> FlatMacDarkLaf.setup();
-            case FLAT_INTELLIJ_LAF_THEME_NAME -> FlatIntelliJLaf.setup();
-            case FLAT_DARCULA_LAF_THEME_NAME -> FlatDarculaLaf.setup();
-            default -> { printThemeHelp(); System.exit(0); }
+            case FLAT_LIGHT_LAF_THEME_NAME:
+                FlatLightLaf.setup();
+                break;
+            case FLAT_DARK_LAF_THEME_NAME:
+                FlatDarkLaf.setup();
+                break;
+            case FLAT_MAC_LIGHT_LAF_THEME_NAME:
+                FlatMacLightLaf.setup();
+                break;
+            case FLAT_MAC_DARK_LAF_THEME_NAME:
+                FlatMacDarkLaf.setup();
+                break;
+            case FLAT_INTELLIJ_LAF_THEME_NAME:
+                FlatIntelliJLaf.setup();
+                break;
+            case FLAT_DARCULA_LAF_THEME_NAME:
+                FlatDarculaLaf.setup();
+                break;
+            default:
+                printThemeHelp();
+                System.exit(0);
         }
     }
 
