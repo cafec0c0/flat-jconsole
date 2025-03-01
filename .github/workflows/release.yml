@@ -19,7 +19,7 @@ jobs:
       - run: mvn clean package
       - uses: actions/create-release@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           tag_name: ${{ github.ref_name }}
           release_name: Release ${{ github.ref_name }}
@@ -27,4 +27,4 @@ jobs:
           prerelease: false
       - run: gh release upload ${{ github.ref_name }} target/flat-jconsole-${{ github.ref_name }}.jar
         env:
-          GITHUB_TOKEN: ${{ github.TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
