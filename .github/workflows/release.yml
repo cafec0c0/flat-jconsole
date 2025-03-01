@@ -1,7 +1,7 @@
 on:
   push:
     tags:
-      - 'release/**'
+      - 'v*'
 
 name: Create Release
 
@@ -23,10 +23,10 @@ jobs:
       - run: mvn -B versions:set -DnextSnapshot=true -DgenerateBackupPoms=false -DprocessDependencies=false -DprocessPlugins=false
       - uses: EndBug/add-and-commit@v9
         with:
-         add: 'pom.xml'
-         message: Bump pom version
-         new_branch: main
-         push: true
+          add: 'pom.xml'
+          message: Bump pom version
+          new_branch: main
+          push: true
       - uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ github.token }}
