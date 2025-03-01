@@ -1,14 +1,14 @@
-name: build-java
+name: build-flat-jconsole
 on: [push]
 jobs:
-  check-bats-version:
+  build-flat-jconsole:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '9'
+          java-version: '11'
       - run: mvn clean package
 
 
