@@ -15,12 +15,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
+      - run: mvn -B versions:set -DnewVersion=${{ github.ref }} -DgenerateBackupPoms=false
       - run: mvn clean package
-      - uses: actions/create-release@latest
+      - run: gh release upload ${{ github.event.release.tag_name }} flat-jconsole-${{ github.ref }}.jar
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          GITHUB_TOKEN: ${{ github.TOKEN }}
