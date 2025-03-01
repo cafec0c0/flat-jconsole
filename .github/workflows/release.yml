@@ -22,6 +22,8 @@ jobs:
         with:
          add: 'pom.xml'
          message: Bump pom version
+         new_branch: main
+         push: true
       - uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ github.token }}
