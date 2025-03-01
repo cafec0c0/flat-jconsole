@@ -14,10 +14,10 @@ mvn clean package
 ## Running
 Running flat-jconsole requires java 9+, however it can be used to monitor older JVMs.
 ```
-java -jar flat-jconsole-0.0.15.jar -theme=FlatLightLaf
+java -jar flat-jconsole-1.0.0.jar -theme=FlatLightLaf
 ```
 
 ## Displaying help
 ```
-java -jar flat-jconsole-0.0.15.jar -h
+java -jar flat-jconsole-1.0.0.jar -h
 ```
